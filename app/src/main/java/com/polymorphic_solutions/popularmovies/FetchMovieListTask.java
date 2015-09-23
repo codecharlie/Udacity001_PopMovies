@@ -23,9 +23,10 @@ import java.util.Locale;
 
 
 public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
-    public AsynchReturnCall delegate;
     private final String LOG_TAG = FetchMovieListTask.class.getSimpleName();
-    private final String API_KEY = "GET YOUR OWN";      // You can get this from tmdb.org...
+
+    public AsynchReturnCall delegate;
+    private final String API_KEY = "GET YOU OWN KEY";      // You can get this from tmdb.org...
     private final String MOVIE_POSTER_BASE = "http://image.tmdb.org/t/p/";
     private final String MOVIE_POSTER_SIZE = "w185";
 
@@ -40,8 +41,7 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
             return null;
         }
 
-        // These two need to be declared outside the try/catch
-        // so that they can be closed in the finally block.
+        // These two need to be declared outside the try/catch so that they get closed in the finally block.
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String moviesJsonStr = null;
@@ -109,7 +109,7 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
     @Override
     protected void onPostExecute(List<Movie> results) {
         if (results != null) {
-            // return the List of movies back to the caller.
+            // This will execute the callback function on the delegate
             delegate.onTaskCompleted(results);
         }
     }
@@ -127,8 +127,6 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
     }
 
     private List<Movie> extractData(String moviesJsonStr) throws JSONException {
-
-        // Items to extract
         final String ARRAY_OF_MOVIES = "results";
         final String ORIGINAL_TITLE = "original_title";
         final String POSTER_PATH = "poster_path";
@@ -138,25 +136,22 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
 
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray moviesArray = moviesJson.getJSONArray(ARRAY_OF_MOVIES);
-        int moviesLength =  moviesArray.length();
+        int moviesCount =  moviesArray.length();
         List<Movie> movies = new ArrayList<Movie>();
 
-        for(int i = 0; i < moviesLength; ++i) {
-
-            // for each movie in the JSON object create a new
-            // movie object with all the required data
+        // Looping through the JSON object to get all of the movies...
+        for(int i = 0; i < moviesCount; ++i) {
             JSONObject movie = moviesArray.getJSONObject(i);
             String title = movie.getString(ORIGINAL_TITLE);
             String poster = MOVIE_POSTER_BASE + MOVIE_POSTER_SIZE + movie.getString(POSTER_PATH);
             String overview = movie.getString(OVERVIEW);
-            String voteAverage = movie.getString(VOTE_AVERAGE);
+            String rating = movie.getString(VOTE_AVERAGE);
             String releaseDate = getYear(movie.getString(RELEASE_DATE));
 
-            movies.add(new Movie(title, poster, overview, voteAverage, releaseDate));
+            movies.add(new Movie(title, poster, overview, rating, releaseDate));
 
         }
 
         return movies;
-
     }
 }
