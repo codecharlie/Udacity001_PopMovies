@@ -17,13 +17,15 @@ public class Movie implements Parcelable {
     private String overview;
     private String rating;
     private String releaseDate;
+    private String voteCount;
 
-    public Movie(String title, String poster, String overview, String rating, String releaseDate){
+    public Movie(String title, String poster, String overview, String rating, String releaseDate, String votes){
         this.title = title;
         this.poster = poster;
         this.overview = overview;
         this.rating = rating;
         this.releaseDate = releaseDate;
+        this.voteCount = votes;
     }
 
     public String getTitle() {
@@ -66,6 +68,14 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
+    public String getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(String voteCount) {
+        this.voteCount = voteCount;
+    }
+
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(title);
@@ -73,6 +83,7 @@ public class Movie implements Parcelable {
         out.writeString(overview);
         out.writeString(rating);
         out.writeString(releaseDate);
+        out.writeString(voteCount);
     }
 
     @Override
@@ -86,6 +97,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         rating = in.readString();
         releaseDate = in.readString();
+        voteCount = in.readString();
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

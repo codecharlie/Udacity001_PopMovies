@@ -49,11 +49,14 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
         try {
 
             final String BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
+            final String MIN_VOTES = "vote_count.gte";
             final String SORT_BY = "sort_by";
             final String KEY = "api_key";
             String sortBy = params[0];
+            String minVotes = params[1];
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                    .appendQueryParameter(MIN_VOTES, minVotes)      // I added the Minimum Votes piece because of getting poor-quality results --> one vote wonders break things!
                     .appendQueryParameter(SORT_BY, sortBy)
                     .appendQueryParameter(KEY, API_KEY)
                     .build();
@@ -133,6 +136,7 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
         final String OVERVIEW = "overview";
         final String VOTE_AVERAGE = "vote_average";
         final String RELEASE_DATE = "release_date";
+        final String VOTE_COUNT = "vote_count";
 
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray moviesArray = moviesJson.getJSONArray(ARRAY_OF_MOVIES);
@@ -147,12 +151,13 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
             String overview = movie.getString(OVERVIEW);
             String rating = movie.getString(VOTE_AVERAGE);
             String releaseDate = getYear(movie.getString(RELEASE_DATE));
+            String votes = movie.getString(VOTE_COUNT);
 
-            if (overview == null || overview == ""){
+            if (overview == null || overview == "" || overview == "null"){
                 overview = "No Summary for this movie can be found";
             }
 
-            movies.add(new Movie(title, poster, overview, rating, releaseDate));
+            movies.add(new Movie(title, poster, overview, rating, releaseDate, votes));
 
         }
 

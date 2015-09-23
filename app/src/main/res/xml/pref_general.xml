@@ -12,6 +12,15 @@
             android:entries="@array/sortArray"
             android:entryValues="@array/sortArrayValues" />
 
+        <!-- I want to change this to a spinner later I think, right now it's  just a quick implementation... -->
+        <ListPreference
+            android:title="@string/pref_votes_title"
+            android:summary="@string/pref_votes_summary"
+            android:key="@string/pref_votes_key"
+            android:defaultValue="@string/pref_votes_default_value"
+            android:entries="@array/votesArray"
+            android:entryValues="@array/votesArrayValues" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

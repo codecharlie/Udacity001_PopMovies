@@ -26,6 +26,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         addPreferencesFromResource(R.xml.pref_general);
 
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_sort_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_votes_key)));   // I added the Minimum Votes piece because of getting poor-quality results --> one vote wonders break things!
     }
 
 

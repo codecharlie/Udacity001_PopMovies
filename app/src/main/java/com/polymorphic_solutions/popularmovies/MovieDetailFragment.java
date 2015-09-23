@@ -54,7 +54,7 @@ public class MovieDetailFragment extends Fragment {
         title.setText(movie.getTitle());
         Picasso.with(getActivity()).load(movie.getPoster()).into(poster);
         releaseDate.setText(movie.getReleaseDate());
-        ratings.setText(movie.getRating() + "/10");
+        ratings.setText(movie.getRating() + "/10   ( " + movie.getVoteCount() + "-Votes )");
         overview.setText(movie.getOverview());
     }
 
