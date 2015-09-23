@@ -25,7 +25,7 @@ import java.util.Locale;
 public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
     public AsynchReturnCall delegate;
     private final String LOG_TAG = FetchMovieListTask.class.getSimpleName();
-    private final String API_KEY = "f311557990ffbd2236fc2a463de956a9";      // You can get this from tmdb.org...
+    private final String API_KEY = "GET YOUR OWN";      // You can get this from tmdb.org...
     private final String MOVIE_POSTER_BASE = "http://image.tmdb.org/t/p/";
     private final String MOVIE_POSTER_SIZE = "w185";
 
