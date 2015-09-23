@@ -4,15 +4,14 @@
     <string name="activity_details">Movie Details</string>
 
     <string name="action_settings">Settings</string>
-    <string name="pref_title">Sort Order</string>
+    <string name="pref_title">Sorting Order</string>
     <string name="pref_summary">Select the sorting order for the movies</string>
     <string name="pref_sort_key">sortKey</string>
-    <string name="pref_sort_order_default_value">popularity.value</string>
+    <string name="pref_sort_order_default_value">popularity.desc</string>
     <string name="pref_category_title">Movie Preferences</string>
 
     <string name="sort_array_item_1">Popularity</string>
     <string name="sort_array_item_2">Rating</string>
     <string name="sort_array_item_1_value">popularity.desc</string>
     <string name="sort_array_item_2_value">vote_average.desc</string>
-    <string name="title_activity_movie_detail">MovieDetailActivity</string>
 </resources>

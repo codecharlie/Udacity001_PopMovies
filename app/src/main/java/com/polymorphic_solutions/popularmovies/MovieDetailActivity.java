@@ -4,12 +4,13 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MovieDetailActivity extends ActionBarActivity {
-
     private final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
+
     private FragmentManager fragmentManager = getFragmentManager();
 
     @Override
@@ -22,7 +23,12 @@ public class MovieDetailActivity extends ActionBarActivity {
                     .add(R.id.container, new MovieDetailFragment())
                     .commit();
         }
-        getSupportActionBar().setElevation(0f);
+
+        try {
+            getSupportActionBar().setElevation(0f);
+        }catch(NullPointerException e){
+            Log.d(LOG_TAG, "Null Pointer Exception in MovieDetailFragment.onCreate: " + e.getMessage());
+        }
     }
 
     @Override
@@ -39,7 +45,6 @@ public class MovieDetailActivity extends ActionBarActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

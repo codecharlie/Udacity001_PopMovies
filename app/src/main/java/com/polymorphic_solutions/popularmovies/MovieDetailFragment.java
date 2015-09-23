@@ -43,6 +43,7 @@ public class MovieDetailFragment extends Fragment {
         return rootView;
     }
 
+    // This will populate all of the controls with the correct data...
     private void DisplayInfo(View v){
         TextView title = (TextView) v.findViewById(R.id.movie_title_view);
         ImageView poster = (ImageView) v.findViewById(R.id.poster_image_view);

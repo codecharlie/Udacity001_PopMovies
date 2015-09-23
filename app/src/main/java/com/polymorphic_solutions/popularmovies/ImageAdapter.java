@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 /*
 *
-* Custom ImageAdapter used to
-* used to create the Grid of movie posters
+* Custom ImageAdapter used to used to create the Grid of movie posters
 *
 * */
 
 public class ImageAdapter extends ArrayAdapter<String> {
+    private final String LOG_TAG = ImageAdapter.class.getSimpleName();
 
     private LayoutInflater mLayoutInflater;
     private Context context;
@@ -35,14 +35,15 @@ public class ImageAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
         String url;
-        if (v == null) {
-            v = mLayoutInflater.inflate(layoutId, parent, false);
-        }
-        ImageView imageView = (ImageView) v.findViewById(imageViewID);
+
+        // Just checking to see if it needs to be initialized...
+        if (view == null) view = mLayoutInflater.inflate(layoutId, parent, false);
+
+        ImageView imageView = (ImageView) view.findViewById(imageViewID);
         url = getItem(position);
         Picasso.with(context).load(url).into(imageView);
-        return v;
+        return view;
     }
 }

@@ -7,7 +7,7 @@ import android.os.Parcelable;
 *
 * An object to store all the information for a movie
 *
-* Implements parcelable iso that it can be passed between intents more easily
+* Implements Parcelable so that it can be passed between intents more easily
 *
 * */
 

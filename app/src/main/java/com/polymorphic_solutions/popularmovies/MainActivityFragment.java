@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
+ * A placeholder fragment containing the actual grid listing of the movies
  */
 public class MainActivityFragment extends Fragment {
     private final String LOG_TAG = MainActivityFragment.class.getSimpleName();
-    private final String STORED_MOVIES = "stored_movies";
-    private SharedPreferences prefs;
+
+    private final String SAVED_MOVIES = "saved_movies";
+    private SharedPreferences mPrefs;
     private ImageAdapter mMoviePosterAdapter;
     String sortOrder;
     List<Movie> movies = new ArrayList<Movie>();
@@ -34,15 +35,14 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sortOrder = prefs.getString(getString(R.string.pref_sort_key),
-                getString(R.string.pref_sort_order_default_value));
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sortOrder = mPrefs.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_order_default_value));
 
         if(savedInstanceState != null){
-            ArrayList<Movie> storedMovies = new ArrayList<Movie>();
-            storedMovies = savedInstanceState.<Movie>getParcelableArrayList(STORED_MOVIES);
+            ArrayList<Movie> savedMovies = new ArrayList<Movie>();
+            savedMovies = savedInstanceState.<Movie>getParcelableArrayList(SAVED_MOVIES);
             movies.clear();
-            movies.addAll(storedMovies);
+            movies.addAll(savedMovies);
         }
     }
 
@@ -85,9 +85,8 @@ public class MainActivityFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        // get sort order to see if it has recently changed
-        String prefSortOrder = prefs.getString(getString(R.string.pref_sort_key),
-                getString(R.string.pref_sort_order_default_value));
+        // get sort order
+        String prefSortOrder = mPrefs.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_order_default_value));
 
         if(movies.size() > 0 && prefSortOrder.equals(sortOrder)) {
             updatePosterAdapter();
@@ -102,11 +101,12 @@ public class MainActivityFragment extends Fragment {
         super.onSaveInstanceState(outState);
         ArrayList<Movie> storedMovies = new ArrayList<Movie>();
         storedMovies.addAll(movies);
-        outState.putParcelableArrayList(STORED_MOVIES, storedMovies);
+        outState.putParcelableArrayList(SAVED_MOVIES, storedMovies);
     }
 
+    // This pulls the List of Movies based on the order selected in Prefs
     private void getMovies() {
-        FetchMovieListTask fetchMoviesTask = new FetchMovieListTask(new AsynchReturnCall() {
+        FetchMovieListTask fetchMovieList = new FetchMovieListTask(new AsynchReturnCall() {
             @Override
             public void onTaskCompleted(List<Movie> results) {
                 movies.clear();
@@ -114,10 +114,10 @@ public class MainActivityFragment extends Fragment {
                 updatePosterAdapter();
             }
         });
-        fetchMoviesTask.execute(sortOrder);
+        fetchMovieList.execute(sortOrder);
     }
 
-    // updates the ArrayAdapter of poster images
+    // Need to provide a way to update the Movie Posters
     private void updatePosterAdapter() {
         mMoviePosterAdapter.clear();
         for(Movie movie : movies) {
