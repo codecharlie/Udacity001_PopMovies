@@ -26,7 +26,7 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
     private final String LOG_TAG = FetchMovieListTask.class.getSimpleName();
 
     public AsynchReturnCall delegate;
-    private final String API_KEY = "GET YOU OWN KEY";      // You can get this from tmdb.org...
+    private final String API_KEY = "GET YOUR OWN";      // You can get this from tmdb.org...
     private final String MOVIE_POSTER_BASE = "http://image.tmdb.org/t/p/";
     private final String MOVIE_POSTER_SIZE = "w185";
 
@@ -147,6 +147,10 @@ public class FetchMovieListTask extends AsyncTask<String, Void, List<Movie>> {
             String overview = movie.getString(OVERVIEW);
             String rating = movie.getString(VOTE_AVERAGE);
             String releaseDate = getYear(movie.getString(RELEASE_DATE));
+
+            if (overview == null || overview == ""){
+                overview = "No Summary for this movie can be found";
+            }
 
             movies.add(new Movie(title, poster, overview, rating, releaseDate));
 
