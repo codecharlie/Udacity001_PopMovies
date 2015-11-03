@@ -1,4 +1,4 @@
-package com.polymorphic_solutions.popularmovies;
+package com.polymorphic_solutions.popularmovies.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

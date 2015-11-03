@@ -4,14 +4,17 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MovieDetailActivity extends ActionBarActivity {
-    private final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
 
+    /*
+    * private globals for this class
+    * */
+    private final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
     private FragmentManager fragmentManager = getFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,31 +23,37 @@ public class MovieDetailActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
-                    .add(R.id.container, new MovieDetailFragment())
+                    .add(R.id.movie_detail_container, new MovieDetailFragment())
                     .commit();
         }
 
-        try {
-            getSupportActionBar().setElevation(0f);
-        }catch(NullPointerException e){
-            Log.d(LOG_TAG, "Null Pointer Exception in MovieDetailFragment.onCreate: " + e.getMessage());
-        }
+        getSupportActionBar().setElevation(0f);
     }
 
+
+    /*
+    * inflate menu when the details fragment is displayed by this activity
+    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_movie_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
+
+    /*
+    * handle menu items
+    * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
 }

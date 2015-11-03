@@ -1,8 +1,10 @@
-package com.polymorphic_solutions.popularmovies;
+package com.polymorphic_solutions.popularmovies.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.polymorphic_solutions.popularmovies.R;
 
 /**
  * This will take care of all encompass all of the common functions

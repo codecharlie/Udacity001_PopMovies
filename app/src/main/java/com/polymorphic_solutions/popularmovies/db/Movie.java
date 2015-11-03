@@ -1,4 +1,4 @@
-package com.polymorphic_solutions.popularmovies;
+package com.polymorphic_solutions.popularmovies.db;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,20 +12,44 @@ import android.os.Parcelable;
 * */
 
 public class Movie implements Parcelable {
+    private static final String LOG_TAG = Movie.class.getSimpleName();
+
+    private int movie_id;
+    private String backdrop;
     private String title;
     private String poster;
     private String overview;
     private String rating;
     private String releaseDate;
     private String voteCount;
+    private String reviews;
+    private String previews;
 
-    public Movie(String title, String poster, String overview, String rating, String releaseDate, String votes){
+    public Movie(int movie_id, String backdrop, String title, String poster, String overview, String rating, String releaseDate, String votes){
+        this.movie_id = movie_id;
+        this.backdrop = backdrop;
         this.title = title;
         this.poster = poster;
         this.overview = overview;
         this.rating = rating;
         this.releaseDate = releaseDate;
         this.voteCount = votes;
+    }
+
+    public int getMovie_id() {
+        return movie_id;
+    }
+
+    public void setMovie_id(int movie_id) {
+        this.movie_id = movie_id;
+    }
+
+    public String getBackdrop() {
+        return backdrop;
+    }
+
+    public void setBackdrop(String backdrop) {
+        this.backdrop = backdrop;
     }
 
     public String getTitle() {
@@ -76,14 +100,34 @@ public class Movie implements Parcelable {
         this.voteCount = voteCount;
     }
 
+    public String getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(String reviews) {
+        this.reviews = reviews;
+    }
+
+    public String getPreviews() {
+        return previews;
+    }
+
+    public void setPreviews(String previews) {
+        this.previews = previews;
+    }
+
     @Override
     public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(movie_id);
+        out.writeString(backdrop);
         out.writeString(title);
         out.writeString(poster);
         out.writeString(overview);
         out.writeString(rating);
         out.writeString(releaseDate);
         out.writeString(voteCount);
+        out.writeString(previews);
+        out.writeString(reviews);
     }
 
     @Override
@@ -92,12 +136,16 @@ public class Movie implements Parcelable {
     }
 
     private Movie(Parcel in) {
+        movie_id = in.readInt();
+        backdrop = in.readString();
         title = in.readString();
         poster = in.readString();
         overview = in.readString();
         rating = in.readString();
         releaseDate = in.readString();
         voteCount = in.readString();
+        previews = in.readString();
+        reviews = in.readString();
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

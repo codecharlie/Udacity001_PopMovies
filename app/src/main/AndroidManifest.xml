@@ -34,6 +34,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.polymorphic_solutions.popularmovies.MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="com.polymorphic_solutions.popularmovies"
+            android:name=".db.PopularMoviesProvider" />
     </application>
 
 </manifest>

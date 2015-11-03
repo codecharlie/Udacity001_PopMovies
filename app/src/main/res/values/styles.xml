@@ -59,4 +59,36 @@
         <item name="android:paddingBottom">16dp</item>
     </style>
 
+    <!-- trailerss -->
+    <style name="detailsTrailers" parent="AppTheme">
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
+    <!-- reviews -->
+    <style name="detailReviews" parent="AppTheme">
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
+    <!-- extras headline-->
+    <style name="extrasHeadline" parent="AppTheme">
+        <item name="android:textColor">@color/primaryDark</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">50dp</item>
+    </style>
+
+    <!-- extras title -->
+    <style name="extrasTitle" parent="AppTheme">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">16dp</item>
+    </style>
+
+    <!-- extras details -->
+    <style name="extrasText" parent="AppTheme">
+    </style>
 </resources>
