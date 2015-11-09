@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.polymorphic_solutions.popularmovies.db.Movie;
 import com.polymorphic_solutions.popularmovies.db.PopularMoviesContract;
+import com.polymorphic_solutions.popularmovies.utils.Utility;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -45,18 +46,26 @@ public class MovieDetailFragment extends Fragment {
     private String videoToShare;
 
     public MovieDetailFragment() {
-        setHasOptionsMenu(true);
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         mLayoutInflater = inflater;
-        mRootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
         Intent intent = getActivity().getIntent();
-        if (intent != null && intent.hasExtra("movies_details")) {
-            mMovie = (Movie)intent.getParcelableExtra("movies_details");
+        if (getArguments() != null || (intent != null && intent.hasExtra(Utility.MOV_DETAILS))) {
+            mRootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+
+            // this is part of my earlier hack of shoving information over to this fragment however possible...
+            if (getArguments() != null){
+                Bundle args = getArguments();
+                mMovie = (Movie) getArguments().getParcelable(Utility.MOV_DETAILS);
+            }else {
+                mMovie = (Movie) intent.getParcelableExtra(Utility.MOV_DETAILS);
+            }
+
             DisplayInfo(mRootView);
             parseTrailers();
             parseReviews();
@@ -115,7 +124,7 @@ public class MovieDetailFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, "You have to watch this awesome trailer!");
-        intent.putExtra(Intent.EXTRA_TEXT, "https://youtube.com/" + videoToShare);
+        intent.putExtra(Intent.EXTRA_TEXT, "https://www.youtube.com/watch?v=" + videoToShare);
 
         mShareActionProvider.setShareIntent(intent);
         MenuItemCompat.setActionProvider(item, mShareActionProvider);
@@ -164,6 +173,9 @@ public class MovieDetailFragment extends Fragment {
         return false;
     }
 
+    // I want to move these parse routines somewhere else...  Maybe embed the majority of it
+    // in the Movie object...
+
     // Parse out the JSON fragment we put into the Review attribute
     private void parseReviews(){
         if(mMovie.getReviews() == null) return;
@@ -205,9 +217,7 @@ public class MovieDetailFragment extends Fragment {
     }
 
 
-    /*
-    * used to parse the saved json string of movie trailers for the movie
-    * */
+    // Parse out the JSON fragment we put into the Previews Attribute
     private void parseTrailers(){
 
         if (mMovie.getPreviews() == null) return;

@@ -97,7 +97,7 @@ public class FetchMovieDetails extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String rslt) {
-        Log.d(LOG_TAG, "Result: " + rslt);
+        //Log.d(LOG_TAG, "Result: " + rslt);
     }
 
     private String extractData(String jsonRawData) throws JSONException {

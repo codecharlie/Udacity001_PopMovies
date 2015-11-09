@@ -7,6 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.polymorphic_solutions.popularmovies.db.Movie;
+import com.polymorphic_solutions.popularmovies.utils.Utility;
+
 /*
 *
 * Main activity and entry point into the app --> Inflates MainActivityFragment for the main UI which
@@ -14,24 +17,28 @@ import android.view.MenuItem;
 *
 * */
 
-public class MainActivity extends ActionBarActivity {
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
-
-    private FragmentManager fragmentManager = getFragmentManager();
-    MainActivityFragment fragment;
+public class MainActivity extends ActionBarActivity implements MainActivityFragment.Callback{
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String DETAILFRAGMENT_TAG = "DETAILFRAG";
+    private FragmentManager mFragmentManager = getFragmentManager();
+    private boolean mIsDualPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            fragment = new MainActivityFragment();
-            fragmentManager.beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
+        // Now we are going to check if we have a wide-display/tablet
+        // I need to structure this in a more elegant fashion...
+        if(findViewById(R.id.movie_detail_container) != null){
+            mIsDualPane = true;
+            if(savedInstanceState == null){
+                mFragmentManager.beginTransaction()
+                        .add(R.id.movie_detail_container, new MovieDetailFragment(), DETAILFRAGMENT_TAG)
+                        .commit();
+            }
         }else{
-            fragment = (MainActivityFragment) fragmentManager.getFragment(savedInstanceState, "fragmentContent");
+            mIsDualPane = false;
         }
     }
 
@@ -54,9 +61,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        fragmentManager.putFragment(savedInstanceState, "fragmentContent", fragment);
-    }
+    public void loadSelectedMovie(Movie movie) {
+        if (mIsDualPane) {
+            Bundle args = new Bundle();
 
+            // Doing this way because I am wanting to communicate with an existing fragment...
+            // seems a bit like a hack, but I'm using it until I find a more elegant solution
+            args.putParcelable(Utility.MOV_DETAILS, movie);
+            MovieDetailFragment fragment = new MovieDetailFragment();
+            fragment.setArguments(args);
+
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, MovieDetailActivity.class).putExtra(Utility.MOV_DETAILS, movie);
+            startActivity(intent);
+        }
+    }
 }

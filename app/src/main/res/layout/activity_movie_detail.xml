@@ -3,5 +3,6 @@
              android:id="@+id/movie_detail_container"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".MovieDetailActivity"
-             tools:ignore="MergeRootFrame" />
+             tools:context="com.polymorphic_solutions.popularmovies.MovieDetailActivity"
+             tools:ignore="MergeRootFrame">
+</FrameLayout>

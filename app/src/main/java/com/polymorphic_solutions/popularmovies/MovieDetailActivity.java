@@ -8,13 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MovieDetailActivity extends ActionBarActivity {
-
-    /*
-    * private globals for this class
-    * */
     private final String LOG_TAG = MovieDetailActivity.class.getSimpleName();
-    private FragmentManager fragmentManager = getFragmentManager();
-
+    private FragmentManager mFragmentManager = getFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +17,7 @@ public class MovieDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_movie_detail);
 
         if (savedInstanceState == null) {
-            fragmentManager.beginTransaction()
+            mFragmentManager.beginTransaction()
                     .add(R.id.movie_detail_container, new MovieDetailFragment())
                     .commit();
         }
@@ -30,23 +25,14 @@ public class MovieDetailActivity extends ActionBarActivity {
         getSupportActionBar().setElevation(0f);
     }
 
-
-    /*
-    * inflate menu when the details fragment is displayed by this activity
-    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
-
-    /*
-    * handle menu items
-    * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -55,5 +41,4 @@ public class MovieDetailActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
